@@ -1,0 +1,27 @@
+{
+    "name": "rexoitgeo/location",
+    "description": "With this package you will get user login location",
+    "authors": [
+        {
+            "name": "Younus Foysal",
+            "email": "younus.faysal@gmail.com"
+        }
+    ],
+    "type": "project",
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^7.0.1"
+    }
+//    "autoload": {
+//        "psr-4": {
+//            "Rexoitgeo\\Location\\": "src"
+//        }
+//    }
+    /*"extra": {
+        "laravel": {
+            "providers": [
+                "rexoitgeo\\younusfoysal\\Providers\\LocationProvider"
+            ]
+        }
+    }*/
+}
