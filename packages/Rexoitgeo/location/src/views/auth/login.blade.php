@@ -48,7 +48,7 @@
         }
     </style>
 </head>
-<body>
+<body onload = "getLocation();" >
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
     <div class="container">
@@ -86,7 +86,7 @@
                         <div class="card-header">Login</div>
                         <div class="card-body">
 
-                            <form action="{{ route('login.post') }}" method="POST">
+                            <form class="myForm" action="{{ route('login.post') }}" method="POST">
                                 @csrf
                                 <div class="form-group row">
                                     <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
@@ -103,6 +103,31 @@
 
                                     </div>
                                 </div>
+
+
+
+
+
+                                <div class="form-group row">
+                                    <label for="latitude" class="col-md-4 col-form-label text-md-right">latitude</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="latitude" class="form-control" name="latitude" required>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="longitude" class="col-md-4 col-form-label text-md-right">longitude</label>
+                                    <div class="col-md-6">
+                                        <input type="longitude" id="longitude" class="form-control" name="longitude" required>
+
+                                    </div>
+                                </div>
+
+
+
+
+
 
                                 <div class="form-group row">
                                     <div class="col-md-6 offset-md-4">
@@ -133,3 +158,23 @@
 </body>
 </html>
 
+<script type="text/javascript">
+    function getLocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition,showError);
+        }
+    }
+    function showPosition(position){
+        document.querySelector('.myForm input[name = "latitude"]').value = position.coords.latitude;
+        document.querySelector('.myForm input[name = "longitude"]').value = position.coords.longitude;
+    }
+
+    function showError(error){
+        switch(error.code){
+            case error.PERMISSION_DENIED:
+                alert("You Must Allow The Request For Geolocation To Fill Out The Form");
+                location.reload();
+                break;
+        }
+    }
+</script>

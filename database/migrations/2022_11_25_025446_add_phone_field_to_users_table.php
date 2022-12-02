@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->bigInteger('phone');
+
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->datetime('last_login_at')->nullable();
+            $table->string('last_login_ip')->nullable();
         });
     }
 
@@ -26,7 +31,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('phone');
+
+
         });
     }
 };

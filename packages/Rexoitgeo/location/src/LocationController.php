@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class LocationController extends Controller
@@ -46,10 +47,23 @@ class LocationController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
 
-            return view('location::dashboard')->withSuccess('Great! You have Successfully loggedin');
+
+
+            $update = User::query()
+                ->update([
+                'last_login_at' => Carbon::now()->toDateTimeString(),
+                'last_login_ip' => $request->getClientIp(),
+                 'longitude' => $request['longitude'],
+                  'latitude' => $request['latitude']
+            ]);
+
+
+            $posts = User::orderBy('id', 'desc')->take(5)->get();
+
+            return view('location::dashboard', compact('posts'));
         }
 
-        return view("location::login");
+        return view("location::auth.login");
     }
 
     /**
@@ -69,7 +83,10 @@ class LocationController extends Controller
         $data = $request->all();
         $check = $this->create($data);
 
-        return view("location::dashboard")->withSuccess('Great! You have Successfully loggedin');
+        $posts = User::orderBy('id', 'desc')->take(5)->get();
+
+
+        return view("location::dashboard", compact('posts'))->withSuccess('Great! You have Successfully loggedin');
     }
 
     /**
@@ -80,10 +97,13 @@ class LocationController extends Controller
     public function dashboard()
     {
         if(Auth::check()){
-            return view('location::dashboard')->withSuccess('Great! You have Successfully loggedin');
+
+            $posts = User::orderBy('id', 'desc')->take(5)->get();
+
+            return view('location::dashboard', compact('posts'));
         }
 
-        return view("location::login");
+        return view("location::auth.login");
     }
 
     /**
@@ -101,6 +121,20 @@ class LocationController extends Controller
         ]);
     }
 
+    public function update(array $data)
+    {
+
+
+
+        return User::query()
+        ->update([
+            'last_login_at' => Carbon::now()->toDateTimeString(),
+            'last_login_ip' => \Request::getClientIp(true),
+            'longitude' => $data['longitude'],
+            'latitude' => $data['latitude']
+        ]);
+    }
+
     /**
      * Write code on Method
      *
@@ -112,6 +146,8 @@ class LocationController extends Controller
 
         return view('location::auth.login');
     }
+
+
 }
 
 

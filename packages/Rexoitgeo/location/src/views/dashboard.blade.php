@@ -84,7 +84,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-header">{{ __('Dashboard') }} - Users Information</div>
 
                     <div class="card-body">
                         @if (session('success'))
@@ -95,6 +95,39 @@
 
                         You are Logged In
                     </div>
+
+
+                    <div class="container my-5 p-4 shadow">
+                        <table class="table table-light table-hover">
+
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Location</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($posts as $post)
+                                <tr>
+                                    <th scope="row">{{$post->id}}</th>
+                                    <td>{{$post->name}}</td>
+                                    <td>{{$post->email}}</td>
+
+                                    <td style = "width: 450px; height: 450px;"> <iframe src='https://www.google.com/maps?q=<?php echo $post["latitude"]; ?>,<?php echo $post["longitude" ]; ?>&hl=es;z=14&output=embed' style = "width: 100%; height:100%;"> </iframe> </td>
+
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
